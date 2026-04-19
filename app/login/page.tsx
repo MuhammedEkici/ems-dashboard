@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Lock, Eye, EyeOff, Zap } from 'lucide-react'
+import { createBrowserClient } from '@supabase/auth-helpers-nextjs'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -11,6 +12,11 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -18,11 +24,17 @@ export default function LoginPage() {
     setError('')
 
     try {
-      if (email && password) {
-        await new Promise(resolve => setTimeout(resolve, 600))
-        router.push('/forside')
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (authError) {
+        setError('Forkert e-mail eller kodeord. Prøv igen.')
       } else {
-        setError('Udfyld venligst alle felter')
+        const redirectTo = searchParams.get('redirectTo') || '/'
+        router.push(redirectTo)
+        router.refresh()
       }
     } catch {
       setError('Login fejlede. Prøv igen.')
