@@ -51,7 +51,9 @@ export async function GET(request: NextRequest) {
     }
 
     const tokenData = await tokenResponse.json()
-    const dataToken = tokenData.result?.token
+    const dataToken = typeof tokenData.result === 'string' 
+      ? tokenData.result 
+      : tokenData.result?.token
 
     if (!dataToken) {
       throw new Error('Ingen data token modtaget')

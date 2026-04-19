@@ -21,12 +21,12 @@ export async function GET() {
     })
 
     const rawData = await response.json()
+    const token = typeof rawData.result === 'string' ? rawData.result : rawData.result?.token ?? null
 
     return NextResponse.json({
       source: 'live',
       status: response.status,
-      rawData: rawData,
-      token: rawData.result?.token ?? null,
+      token,
     })
 
   } catch (error) {
