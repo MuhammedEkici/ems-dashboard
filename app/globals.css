@@ -1,0 +1,710 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   DARK NEON DESIGN TOKENS
+   ============================================================ */
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-card: #111118;
+  --bg-card-hover: #1a1a2e;
+  --bg-sidebar: #0d0d16;
+  --neon-cyan: #00d4ff;
+  --neon-purple: #a855f7;
+  --neon-green: #00ff88;
+  --neon-amber: #f59e0b;
+  --neon-red: #ef4444;
+  --neon-blue: #3b82f6;
+  --border-glow: rgba(0, 212, 255, 0.15);
+  --border-glow-active: rgba(168, 85, 247, 0.4);
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+
+  /* Legacy aliases (keep for compatibility) */
+  --bg-page: #0a0a0f;
+  --card-bg: #111118;
+  --card-shadow: 0 0 20px rgba(0, 212, 255, 0.06);
+  --card-border: 1px solid rgba(0, 212, 255, 0.12);
+  --card-radius: 16px;
+  --nav-bg: rgba(10, 10, 15, 0.85);
+  --nav-blur: blur(20px);
+  --nav-border: 1px solid rgba(0, 212, 255, 0.1);
+  --accent: #00d4ff;
+  --accent-hover: #00b8e0;
+
+  /* Energy neon colors */
+  --el-color: #00ff88;
+  --el-light: rgba(0, 255, 136, 0.12);
+  --vand-color: #3b82f6;
+  --vand-light: rgba(59, 130, 246, 0.12);
+  --varme-color: #f59e0b;
+  --varme-light: rgba(245, 158, 11, 0.12);
+  --sol-color: #fbbf24;
+  --sol-light: rgba(251, 191, 36, 0.12);
+  --batteri-color: #00ff88;
+  --batteri-light: rgba(0, 255, 136, 0.12);
+}
+
+/* ============================================================
+   BASE RESET & BODY
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   ============================================================ */
+@keyframes flowDash {
+  to { stroke-dashoffset: -20; }
+}
+
+@keyframes travelDot {
+  0% { offset-distance: 0%; }
+  100% { offset-distance: 100%; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(0, 212, 255, 0.2); }
+  50% { box-shadow: 0 0 24px 8px rgba(0, 212, 255, 0.5); }
+}
+
+@keyframes glowPulseGreen {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(0, 255, 136, 0.2); }
+  50% { box-shadow: 0 0 24px 8px rgba(0, 255, 136, 0.5); }
+}
+
+@keyframes glowPulseAmber {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(245, 158, 11, 0.2); }
+  50% { box-shadow: 0 0 24px 8px rgba(245, 158, 11, 0.5); }
+}
+
+@keyframes glowPulseRed {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(239, 68, 68, 0.2); }
+  50% { box-shadow: 0 0 24px 8px rgba(239, 68, 68, 0.5); }
+}
+
+@keyframes glowPulsePurple {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(168, 85, 247, 0.2); }
+  50% { box-shadow: 0 0 24px 8px rgba(168, 85, 247, 0.5); }
+}
+
+@keyframes neonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes particleMove {
+  0% { transform: translateX(0) translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(var(--dx, 100px)) translateY(var(--dy, 0px)); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes darkShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes staggerFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleInBounce {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg); }
+  15% { transform: rotate(-15deg); }
+  30% { transform: rotate(15deg); }
+  45% { transform: rotate(-10deg); }
+  60% { transform: rotate(10deg); }
+  75% { transform: rotate(-5deg); }
+  90% { transform: rotate(5deg); }
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+@keyframes dashMove {
+  to { stroke-dashoffset: -10; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes typingDot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+@keyframes badgeBounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+@keyframes neonBorderPulse {
+  0%, 100% { border-color: rgba(0, 212, 255, 0.12); }
+  50% { border-color: rgba(0, 212, 255, 0.35); }
+}
+
+@keyframes solarShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ============================================================
+   UTILITY ANIMATION CLASSES
+   ============================================================ */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-live-pulse {
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+
+.animate-wobble {
+  animation: wobble 0.6s ease-in-out;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.2s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-stagger-fade-up {
+  animation: staggerFadeUp 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-scale-in-bounce {
+  animation: scaleInBounce 0.4s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.3s ease-out forwards;
+}
+
+.animate-neon-pulse {
+  animation: neonPulse 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   SKELETON LOADING (dark)
+   ============================================================ */
+.skeleton {
+  background: linear-gradient(90deg, #111118 25%, #1a1a2e 50%, #111118 75%);
+  background-size: 200% 100%;
+  animation: darkShimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.skeleton-card {
+  background: var(--bg-card);
+  border-radius: var(--card-radius);
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* ============================================================
+   CARD STYLES (dark neon)
+   ============================================================ */
+.ems-card {
+  background: var(--bg-card);
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(0, 212, 255, 0.12);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.04);
+  padding: 20px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.ems-card:hover {
+  border-color: rgba(168, 85, 247, 0.3);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.1), 0 4px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Neon accent card variants */
+.ems-card-cyan {
+  border-color: rgba(0, 212, 255, 0.25);
+  box-shadow: 0 0 16px rgba(0, 212, 255, 0.08);
+}
+
+.ems-card-green {
+  border-color: rgba(0, 255, 136, 0.25);
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.08);
+}
+
+.ems-card-amber {
+  border-color: rgba(245, 158, 11, 0.25);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.08);
+}
+
+.ems-card-red {
+  border-color: rgba(239, 68, 68, 0.25);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.08);
+}
+
+.ems-card-purple {
+  border-color: rgba(168, 85, 247, 0.25);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.08);
+}
+
+/* ============================================================
+   BUTTON STYLES (dark neon)
+   ============================================================ */
+.btn-primary {
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+  color: #000000;
+  border: none;
+  border-radius: 10px;
+  padding: 0 20px;
+  height: 44px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 0 16px rgba(0, 212, 255, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #00e5ff, #00b8e0);
+  box-shadow: 0 0 24px rgba(0, 212, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--neon-cyan);
+  border: 1.5px solid rgba(0, 212, 255, 0.4);
+  border-radius: 10px;
+  padding: 0 20px;
+  height: 40px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-outline:hover {
+  background: rgba(0, 212, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.7);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
+}
+
+.btn-outline:active {
+  transform: scale(0.97);
+}
+
+/* ============================================================
+   INPUT STYLES (dark neon)
+   ============================================================ */
+.ems-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 10px;
+  background: #1a1a2e;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ems-input::placeholder {
+  color: #475569;
+}
+
+.ems-input:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.12);
+}
+
+.ems-select {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 10px;
+  background: #1a1a2e;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.ems-select:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.12);
+}
+
+/* ============================================================
+   ENERGY FLOW SVG ANIMATIONS
+   ============================================================ */
+.flow-path {
+  stroke-dasharray: 8 4;
+  animation: flowDash 0.8s linear infinite;
+}
+
+.flow-path-reverse {
+  stroke-dasharray: 8 4;
+  animation: flowDash 0.8s linear infinite reverse;
+}
+
+/* ============================================================
+   CATEGORY LABELS (neon colors)
+   ============================================================ */
+.category-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.category-label-el { color: var(--el-color); }
+.category-label-vand { color: var(--vand-color); }
+.category-label-varme { color: var(--varme-color); }
+.category-label-sol { color: var(--sol-color); }
+.category-label-batteri { color: var(--batteri-color); }
+
+/* ============================================================
+   BADGE STYLES (dark neon)
+   ============================================================ */
+.badge-green {
+  background: rgba(0, 255, 136, 0.12);
+  color: #00ff88;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.badge-red {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.badge-yellow {
+  background: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.badge-cyan {
+  background: rgba(0, 212, 255, 0.12);
+  color: #00d4ff;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.badge-purple {
+  background: rgba(168, 85, 247, 0.12);
+  color: #a855f7;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.badge-gray {
+  background: rgba(71, 85, 105, 0.3);
+  color: #94a3b8;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+/* ============================================================
+   DATA SOURCE BADGES
+   ============================================================ */
+.data-source-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #00ff88;
+  font-weight: 500;
+}
+
+.data-source-live::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00ff88;
+  animation: livePulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 6px #00ff88;
+}
+
+.data-source-mock {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.data-source-mock::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #475569;
+}
+
+/* ============================================================
+   TYPING INDICATOR
+   ============================================================ */
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--neon-cyan);
+  display: inline-block;
+  animation: typingDot 1.2s ease-in-out infinite;
+  box-shadow: 0 0 6px var(--neon-cyan);
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* ============================================================
+   DRAG & DROP UPLOAD AREA
+   ============================================================ */
+.upload-area {
+  border: 2px dashed rgba(0, 212, 255, 0.25);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: rgba(0, 212, 255, 0.02);
+}
+
+.upload-area:hover,
+.upload-area.drag-over {
+  border-color: var(--neon-cyan);
+  background: rgba(0, 212, 255, 0.06);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+}
+
+/* ============================================================
+   SCROLLBAR STYLING (dark neon)
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.4);
+}
+
+/* ============================================================
+   PAGE TRANSITION
+   ============================================================ */
+.page-content {
+  animation: fadeIn 0.25s ease-out;
+}
+
+/* ============================================================
+   RECHARTS CUSTOM TOOLTIP (dark)
+   ============================================================ */
+.recharts-tooltip-wrapper {
+  animation: fadeIn 0.15s ease-out;
+}
+
+/* ============================================================
+   NEON GLOW UTILITIES
+   ============================================================ */
+.neon-text-cyan { color: #00d4ff; text-shadow: 0 0 10px rgba(0, 212, 255, 0.5); }
+.neon-text-green { color: #00ff88; text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
+.neon-text-amber { color: #f59e0b; text-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+.neon-text-red { color: #ef4444; text-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+.neon-text-purple { color: #a855f7; text-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
+
+/* ============================================================
+   HEATMAP CELLS
+   ============================================================ */
+.heatmap-cell {
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.15);
+  z-index: 10;
+  position: relative;
+}
+
+/* ============================================================
+   SOLAR PANEL CSS ILLUSTRATION
+   ============================================================ */
+.solar-panel-grid {
+  display: grid;
+  gap: 3px;
+  background: #0a0a0f;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.solar-cell {
+  background: linear-gradient(135deg, #0d1a2e 0%, #0a1520 50%, #0d1a2e 100%);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.solar-cell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 30%, rgba(0, 212, 255, 0.06) 50%, transparent 70%);
+  background-size: 200% 200%;
+  animation: solarShimmer 3s ease-in-out infinite;
+}
+
+/* ============================================================
+   PARTICLE FLOW LINES
+   ============================================================ */
+.flow-line {
+  position: absolute;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.flow-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: particleMove 2s linear infinite;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .hide-mobile { display: none !important; }
+  .show-mobile { display: flex !important; }
+}
+
+@media (min-width: 769px) {
+  .show-mobile { display: none !important; }
+}
