@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Lock, Eye, EyeOff, Zap } from 'lucide-react'
 import { createBrowserClient } from '@supabase/auth-helpers-nextjs'
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -65,7 +65,6 @@ export default function LoginPage() {
           background: '#0a0a0f',
         }}
       >
-        {/* Background image */}
         <div
           style={{
             position: 'absolute',
@@ -76,7 +75,6 @@ export default function LoginPage() {
             opacity: 0.5,
           }}
         />
-        {/* Dark gradient overlay */}
         <div
           style={{
             position: 'absolute',
@@ -84,7 +82,6 @@ export default function LoginPage() {
             background: 'linear-gradient(to bottom right, rgba(0,0,0,0.6), rgba(0,212,255,0.1))',
           }}
         />
-        {/* Bottom gradient fade */}
         <div
           style={{
             position: 'absolute',
@@ -95,8 +92,6 @@ export default function LoginPage() {
             background: 'linear-gradient(to top, #0a0a0f, transparent)',
           }}
         />
-
-        {/* Centered text */}
         <div
           style={{
             position: 'relative',
@@ -129,7 +124,6 @@ export default function LoginPage() {
           >
             Intelligent energistyring til dit hjem
           </p>
-
           <div
             style={{
               display: 'flex',
@@ -158,8 +152,6 @@ export default function LoginPage() {
             ))}
           </div>
         </div>
-
-        {/* Copyright */}
         <div
           style={{
             position: 'absolute',
@@ -186,7 +178,6 @@ export default function LoginPage() {
           position: 'relative',
         }}
       >
-        {/* Subtle background glow */}
         <div
           style={{
             position: 'absolute',
@@ -199,8 +190,6 @@ export default function LoginPage() {
             pointerEvents: 'none',
           }}
         />
-
-        {/* Dark card */}
         <div
           style={{
             width: '100%',
@@ -214,7 +203,6 @@ export default function LoginPage() {
             zIndex: 1,
           }}
         >
-          {/* Logo */}
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
             <div
               style={{
@@ -231,159 +219,64 @@ export default function LoginPage() {
             >
               <Zap size={28} color="#000" fill="#000" />
             </div>
-            <h2
-              style={{
-                fontSize: 22,
-                fontWeight: 600,
-                color: '#ffffff',
-                marginBottom: 6,
-              }}
-            >
+            <h2 style={{ fontSize: 22, fontWeight: 600, color: '#ffffff', marginBottom: 6 }}>
               Velkommen tilbage
             </h2>
-            <p style={{ fontSize: 13, color: '#475569' }}>
-              Log ind på dit energidashboard
-            </p>
+            <p style={{ fontSize: 13, color: '#475569' }}>Log ind på dit energidashboard</p>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div>
-              <label
-                htmlFor="email"
-                style={{
-                  display: 'block',
-                  fontSize: 13,
-                  fontWeight: 500,
-                  color: '#94a3b8',
-                  marginBottom: 6,
-                }}
-              >
+              <label htmlFor="email" style={{ display: 'block', fontSize: 13, fontWeight: 500, color: '#94a3b8', marginBottom: 6 }}>
                 E-mail
               </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="din@email.dk"
-                className="ems-input"
-                required
-              />
+              <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="din@email.dk" className="ems-input" required />
             </div>
-
             <div>
-              <label
-                htmlFor="password"
-                style={{
-                  display: 'block',
-                  fontSize: 13,
-                  fontWeight: 500,
-                  color: '#94a3b8',
-                  marginBottom: 6,
-                }}
-              >
+              <label htmlFor="password" style={{ display: 'block', fontSize: 13, fontWeight: 500, color: '#94a3b8', marginBottom: 6 }}>
                 Kodeord
               </label>
               <div style={{ position: 'relative' }}>
-                <input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="ems-input"
-                  style={{ paddingRight: 44 }}
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: 'absolute',
-                    right: 12,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    color: '#475569',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
+                <input id="password" type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" className="ems-input" style={{ paddingRight: 44 }} required />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#475569', display: 'flex', alignItems: 'center' }}>
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
             </div>
 
             {error && (
-              <div
-                style={{
-                  padding: '10px 14px',
-                  background: 'rgba(239,68,68,0.1)',
-                  border: '1px solid rgba(239,68,68,0.3)',
-                  borderRadius: 10,
-                  fontSize: 13,
-                  color: '#ef4444',
-                }}
-              >
+              <div style={{ padding: '10px 14px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 10, fontSize: 13, color: '#ef4444' }}>
                 {error}
               </div>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-primary"
-              style={{
-                width: '100%',
-                marginTop: 4,
-                opacity: loading ? 0.7 : 1,
-              }}
-            >
+            <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', marginTop: 4, opacity: loading ? 0.7 : 1 }}>
               {loading ? 'Logger ind...' : 'Log Ind'}
             </button>
           </form>
 
-          {/* Forgot password */}
           <div style={{ textAlign: 'center', marginTop: 16 }}>
-            <a
-              href="#"
-              style={{
-                fontSize: 13,
-                color: '#a855f7',
-                textDecoration: 'none',
-                fontWeight: 500,
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.textShadow = '0 0 8px rgba(168,85,247,0.6)'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.textShadow = 'none'
-              }}
-            >
+            <a href="#" style={{ fontSize: 13, color: '#a855f7', textDecoration: 'none', fontWeight: 500 }}
+              onMouseEnter={e => { e.currentTarget.style.textShadow = '0 0 8px rgba(168,85,247,0.6)' }}
+              onMouseLeave={e => { e.currentTarget.style.textShadow = 'none' }}>
               Glemt password?
             </a>
           </div>
 
-          {/* Secure connection */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 6,
-              marginTop: 24,
-              paddingTop: 20,
-              borderTop: '1px solid rgba(0,212,255,0.08)',
-            }}
-          >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 24, paddingTop: 20, borderTop: '1px solid rgba(0,212,255,0.08)' }}>
             <Lock size={12} color="#475569" />
             <span style={{ fontSize: 12, color: '#475569' }}>Sikker forbindelse</span>
           </div>
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div style={{ background: '#0a0a0f', height: '100vh' }} />}>
+      <LoginForm />
+    </Suspense>
   )
 }
